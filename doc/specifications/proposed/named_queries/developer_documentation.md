@@ -44,7 +44,39 @@ system:
                     template: "AcmeBundle:query/list/latest_articles.html.twig"
                     match:
                         QueryType\Name: 'AcmeBundle:LatestContent'
-                        QueryType\Parameter: "ContentType=article"
+                        QueryType\Parameters: {ContentType: "article"}
+```
+
+#### QueryType template matchers
+
+##### `QueryType\Name`
+Matches the QueryType's name (exact match).
+
+##### `QueryType\Parameters`
+Matches the parameters against a given hash. The hash must contain the parameter's name as the key,
+and the match value as the value:
+
+```twig
+match:
+  QueryType\Parameters:
+    type: "article",
+    category: "development"
+
+Each parameter will be matched exactly.
+The matcher will match if ALL of the provided parameters match what is contained in the hash.
+
+##### `QueryType\Expression`
+Uses Symfony's [Expression Language](http://symfony.com/en/doc/current/components/expression_language/index.html)
+for advanced matching.
+
+This matcher expects a valid expression language string as the input. The expression must be
+evaluated to a boolean. The parameters hash is available as `parameters`
+
+In the example below, 'type' must be either 'article' or 'blog_post'.
+
+```twig
+match:
+  QueryType\Expression: "parameters['type'] in ['article', 'blog_post']"
 ```
 
 ## QueryType objects
