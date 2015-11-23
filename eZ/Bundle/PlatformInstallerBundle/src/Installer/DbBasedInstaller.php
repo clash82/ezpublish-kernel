@@ -35,7 +35,7 @@ class DbBasedInstaller
     protected function copyConfigurationFile($source, $target)
     {
         $fs = new Filesystem();
-        $fs->copy($source, $target);
+        $fs->copy($source, $target, true);
 
         if (!$this->output->isQuiet()) {
             $this->output->writeln("Copied $source to $target");
